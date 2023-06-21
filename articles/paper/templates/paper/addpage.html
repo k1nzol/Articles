@@ -1,0 +1,17 @@
+{% extends 'paper/base.html' %}
+
+{% block content %}
+<div class="window">
+    <form action="{% url 'add_page' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div style="color: #A52A2A;"><h2>{{ form.non_field_errors }}</h2></div>
+
+        {% for f in form %}
+        <h1><label for="{{ f.id_for_label }}">{{ f.label }}: </label>{{ f }}</h1>
+            <h2>{{ f.errors }}</h2>
+        {% endfor %}
+        <button type="submit">Add</button>
+        <h4 style="background-color: #606060; border-radius: 4px; color: #D3D3D3;">If you want to post now, set the time to be now. Time on server: {{ time }}</h4>
+    </form>
+</div>
+{% endblock %}

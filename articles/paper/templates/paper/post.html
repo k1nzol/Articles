@@ -1,0 +1,55 @@
+{% extends 'paper/base.html' %}
+
+{% block content %}
+<div class="post" style="height: 85%;">
+    <div style="height: 40%; width: 20%;">
+        <img style="object-fit:cover; height 100%; width: 100%; border-radius: 10px;" src="{{ post.photo.url }}">
+    </div>
+
+    <div style="height: 10%; width: 70%; margin: 0px 10px;">
+        <h1>{{ post.title }}</h1>
+    </div>
+
+    <div style="height: 10%; width: 10%; margin: 0px 5px;">
+        <h3>{{ post.time_create }}</h3>
+    </div>
+
+    <div style="height: 15%; width: 13%; position: absolute; margin: 650px 0px;">
+        <h3 style="margin: 4px 0px;">Author: {{ post.user.username  }}</h3>
+        <h3 style="margin: 0px 0px;">Category: {{ post.category }}</h3>
+    </div>
+
+    <div class="sideBar" style="background-color: #A8A8A8; height: 60%; width: 64%; position: absolute; margin: 80px 320px;border: 3px solid #707070; border-radius: 10px; overflow-x:hidden;">
+        <h1>{{post.content}}</h1>
+    </div>
+</div>
+
+
+<div class="post" style="height: 85%;overflow: scroll;">
+    <form method="post" action="" style="width: 100%;">
+        {% csrf_token %}
+        {% if request.user.is_authenticated %}
+        <div style="color: #A52A2A;"><h2>{{ form.non_field_errors }}</h2></div>
+
+        {% for f in form %}
+            <h1><label for="{{ f.id_for_label }}">{{ f.label }}: </label>{{ f }}</h1>
+            <h2>{{ f.errors }}</h2>
+        {% endfor %}
+        <button type="submit">Send Comment</button>
+        {% else %}
+        <h2 style="color: Grey;text-align: center;">You need <a href="{% url 'login' %}" style="background-color: #A9A9A9;border-radius: 4px;">log in</a> for write comments</h2>
+        {% endif %}
+        {% if comments %}
+            {% for c in comments %}
+            <hr align="right" width="1550" size="3"/>
+            <h2>{{c.user.username}}</h2>
+            <h3 style="border: 2px solid #A8A8A8; border-radius: 5px;">{{c.content}}</h3>
+            <h6 style="float: right">{{c.time_create}}</h6>
+            {% endfor %}
+        {% else %}
+            <hr align="right" width="1550" size="3"/>
+            <h2 style="color: Grey;text-align: center;">No comments</h2>
+        {% endif %}
+    </form>
+</div>
+{% endblock %}

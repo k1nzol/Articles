@@ -1,0 +1,62 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{{ title }}</title>
+  <link type="text/css" rel="stylesheet" href="{% static 'paper/css/styles.css' %}">
+  <link rel="shortcut icon" href="{% static 'paper/images/logo.ico' %}" type="image/x-icon"/>
+</head>
+<body>
+
+  <!--HEADER-->
+  <div class="header">
+    <div class="header__section">
+      {% for item in menu %}
+        <a href="{% url item.url %}"><div class="header__item headerButton">{{ item.title }}</div></a>
+      {% endfor %}
+    </div>
+    <div class="header__section">
+      {% if request.user.is_authenticated %}
+      <a href="{% url 'logout' %}"><div class="header__item headerButton">{{user.username}}</div></a>
+      {% else %}
+      <div class="header__item headerButton"><a href="{% url 'login' %}">Log In</a></div>
+      {% endif %}
+    </div>
+  </div>
+  <!--ENDHEADER-->
+
+  <!--SIDEBAR-->
+  <main>
+  <div class="sideBar">
+    <div class="sideBar__section">
+      {% if cat_selected == 0 %}
+      <a href="{% url 'home' %}"><div class="sideBar__item" style="background-color: #787878;border-radius: 4px;">All Categories</div></a>
+      {% else %}
+      <a href="{% url 'home' %}"><div class="sideBar__item">All Categories</div></a>
+      {% endif %}
+
+      {% for category in categories %}
+        {% if category.articles__count > 0 %}
+          {% if category.pk == cat_selected %}
+          <a href="{{ category.get_absolute_url }}"><div class="sideBar__item" style="background-color: #787878;border-radius: 4px;">{{ category }}</div></a>
+          {% else %}
+          <a href="{{ category.get_absolute_url }}"><div class="sideBar__item">{{ category }}</div></a>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+  </main>
+  <!--ENDSIDEBAR-->
+
+  <!--CONTENT-->
+  <main>
+  <div class="content">
+    {% block content %}
+    {% endblock %}
+  </div>
+  </main>
+  <!--ENDCONTENT-->
+</body>
+</html>

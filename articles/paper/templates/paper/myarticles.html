@@ -1,0 +1,39 @@
+{% extends 'paper/base.html'%}
+
+{% block content %}
+{% for p in posts %}
+<div class="post">
+    <div style="height:75%; width:13%;"><div class="wrapper">
+        <a href="{{ p.get_absolute_url }}"><img style="object-fit:cover;" src="{{ p.photo.url }}"></a></div>
+    </div>
+
+    <div style="height:22%; width:74%;margin: 0px 10px;">
+        <h1 style="margin: 20px 0px;">{{ p.title }}</h1>
+    </div>
+
+    <div style="height:13%; width:13%;margin: 0px 10px;">
+        {% if p.is_published %}
+        <h4 style="margin: 0px 0px;">{{ p.time_update }}</h4>
+        {% else %}
+        <h4 style="margin: 0px 0px; border: 2px solid #484848; background-color: #F08080;border-radius: 5px;">Will be published : {{ p.publication_datetime }}</h4>
+        {% endif %}
+    </div>
+
+    <div style="height:14%; width:65%;position: absolute;margin: 50px 207px;overflow:hidden;">
+        <h2 style="margin: 0px 0px;">{{ p.content|linebreaks|truncatewords:50 }}</h2>
+    </div>
+
+    <div style="height:5%; width:81%;position: absolute;margin: 208px 0px;">
+        <h3 style="margin: 4px 0px;">Author: {{ p.user.username  }}</h3>
+        <h3 style="margin: 0px 0px;">Category: {{ p.category }}</h3>
+    </div>
+
+    <div style="height:5%; width:7.6%;position: absolute;margin: 208px 1350px;">
+        <a href="{{ p.get_absolute_url }}">
+            <h2 style="border: 2px solid #484848; background-color: #F0F0F0;border-radius: 5px;">Read Article</h2>
+        </a>
+    </div>
+
+</div>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'paper/base.html' %}
+
+{% block content %}
+<h1>{{title}}</h1>
+<div class="window" style="width: 30%; height: 40%; margin: 200px 400px;">
+<form method="post">
+    {% csrf_token %}
+          <div style="color: #A52A2A;"><h2>{{ form.non_field_errors }}</h2></div>
+
+    {% for f in form %}
+              <h1><label for="{{ f.id_for_label }}">{{ f.label }}: </label>{{ f }}</h1>
+              <h2>{{ f.errors }}</h2>
+    {% endfor %}
+    <button type="submit">Register</button>
+</form>
+</div>
+{% endblock %}
